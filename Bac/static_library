@@ -1,0 +1,67 @@
+inc file: test.h
+void test1();
+void test2();
+void test3();
+
+src file :test1.c
+#include <stdio.h>
+
+void func1(void)
+{
+printf("%s<%d>\n",__FUNCTION__,__LINE__);
+}
+
+src file :test2.c
+#include <stdio.h>
+
+void func2(void)
+{
+printf("%s<%d>\n",__FUNCTION__,__LINE__);
+}
+
+src file :test3.c
+#include <stdio.h>
+
+void func3(void)
+{
+printf("%s<%d>\n",__FUNCTION__,__LINE__);
+}
+
+src file :test.c
+#include <stdio.h>
+#include <test.h>
+
+int main(int argc, char ** argv)
+{
+printf("this is main program\n");
+func1();
+func2();
+func3();
+}
+
+Makefile:
+C:=gcc
+CXX:=g++
+
+TARGET:= program
+
+CFLAGS:= -I./inc
+LDFLAGS:=
+
+SCRC:=$(shell find ./ -name "*.c")
+
+OBJS =$(patsubst %.c,%.o, $(SCRC))
+
+%.o:%.c
+	$(CC) -c $^ -o $@ $(CFLAGS)
+
+$(TARGET):$(OBJS)
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+clean:
+	rm -f $@ $(TARGET)
+
+PHONY: clean all
+all: $(TARGET)
+
+Now you can run the TARGET program !:D
