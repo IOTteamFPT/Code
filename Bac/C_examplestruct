@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <conio.h>
+
+//struct struct_name{
+//	<type 1> <field1>;	
+//	<type 2> <field2>;
+//	…
+//}
+//Data type should be standard type of C, struct, union.
+//Example
+//Define:
+Struct student{
+	char * Name;
+	int Ages;
+};
+//Declare:
+int main()
+{
+struct student student1,*pointer=NULL;//con trỏ trỏ đến 1 biến có kiểu dử liệu sample_struct.
+//Using:
+student1.Ages = 24;
+student1.Name = (char*)"óc chó";
+pointer-> Ages = 0xdeadbeef; // Is this statement ok?
+pointer = &student;// trỏ đến giá trị tại địa chỉ stObject.
+printf("%s \n", pointer-> Name ); // result = ?
+getchar();
+};
