@@ -29,3 +29,28 @@ Assume: we are stand at directory contains source code
 export LD_LIBRARY_PATH=home/bawcs2911/Dowloads
 
 Then u can run application file.
+
+3.Makefile dynamic library 
+CC:=gcc
+CXX:=g++
+
+TARGET:= application
+
+CFLAGS:= -I./inc
+LDFLAGS:= -L./ -ldynamic
+
+app.o: app.c
+	$(CC) -c $^ -o $@
+dynamic.o: dynamic.c
+	$(CC) -c $^ -fPIC -o $@ 
+libdynamic.so: dynamic.o
+	$(CC) -shared -o $@ $^
+
+$(TARGET): app.o libdynamic.so	
+	$(CC) $^ $(LDFLAGS) -o $(TARGET) 
+
+clean:
+	rm -f *.o $@ $(TARGET) *.so
+
+PHONY: clean all
+all: $(TARGET)
