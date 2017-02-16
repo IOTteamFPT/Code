@@ -25,3 +25,7 @@ Assume: we are stand at directory contains source code
 
 # gcc –c app.c –o app.o
 # gcc app.o –L./(-L/home/bawcs2911/Dowloads) -ldynamic –o application
+
+export LD_LIBRARY_PATH=home/bawcs2911/Dowloads
+
+Then u can run application file.
