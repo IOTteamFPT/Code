@@ -1,0 +1,8 @@
+#!/bin/bash
+
+file=$1
+cat < $file | awk -F ' : ' '{
+	if ($3 == "female") printf "Mrs " $1
+	else if ($3 == "male") printf "Mr " $1
+	print " is " $2 " sex " $3 " with phone number " $4;
+}'
