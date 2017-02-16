@@ -1,0 +1,27 @@
+File dynamic.c
+#include <stdio.h>
+
+void dynamic_function(int iInput)
+{
+         printf(“%s: %d\n”,__FUNCTION__,iInput);
+}
+
+File app.c
+#include <stdio.h>
+
+void dynamic_function(int iInput);
+int main(int argc, char ** argv)
+{
+	dynamic_function(1);
+	return 0;
+}
+
+1. Build library
+# gcc –c dynamic.c  -fPIC –o dynamic.o 
+# gcc –shared -o libdynamic.so dynamic.o
+
+2. Build application
+Assume: we are stand at directory contains source code 
+
+# gcc –c app.c –o app.o
+# gcc app.o –L./(-L/home/bawcs2911/Dowloads) -ldynamic –o application
