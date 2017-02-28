@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>fast-forward-button.png</file>
+        <file>fast-rewind-button.png</file>
+        <file>open-folder.png</file>
+        <file>pause-button.png</file>
+        <file>play-button.png</file>
+        <file>stop-button.png</file>
+        <file>fast-rewind-button_(1).png</file>
+        <file>fast-forward-button_(1).png</file>
+        <file>open-folder_(1).png</file>
+        <file>pause-button_(1).png</file>
+        <file>play-button_(1).png</file>
+        <file>stop-button_(1).png</file>
+        <file>FPT_Logo.jpg</file>
+    </qresource>
+</RCC>
