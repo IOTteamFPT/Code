@@ -16,10 +16,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-//const uint64_t pipe = 0xE8E8F0F0E1LL; 
 pipes = [[0xE8, 0xE8, 0xF0, 0xF0, 0xE1], [0xF0, 0xF0, 0xF0, 0xF0, 0xE1]]   
-//busdn RF24(9,10); //thay 10 thành 53 với mega
- 
+
 int val;
 const char mess[] = "Hello Raspberry Pi"
 SPI_InitTypeDef   SPI_InitStructure;
@@ -34,7 +32,9 @@ __IO uint8_t TxIdx = 0, RxIdx = 0, k = 0;
 
 /* Private functions ---------------------------------------------------------*/
 void RCC_Configuration(void);
-void SPIx_Init()
+void SPIx_Init();
+void setup_gpio();
+
 
 
 int main(void)
@@ -42,7 +42,8 @@ int main(void)
 		  /* System clocks configuration ---------------------------------------------*/
 		  RCC_Configuration();
 		  /* SPI & GPIO configuration  ---------------------------------------------*/
-		  SPIx_Init()
+		  SPIx_Init();
+	          setup_gpio();
 
 	//===========================Module NRF24============================
     // setup
@@ -61,7 +62,15 @@ int main(void)
 		 char receivedMessage[32] = {0};
 		if (RF24.available()){
 		RF24.read(receivedMessage, sizeof(receivedMessage));
-		Serial.println(receivedMessage);
+		if(receivedMessage==1)
+		{
+		GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET);
+		}
+                else
+		{
+    		GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_RESET);
+		}
+    		
 		RF24.stopListening();
 		RF24.write(mess, sizeof(mess));
 		RF24.startListening();
@@ -72,7 +81,13 @@ int main(void)
 
 }
 }
-
+void setup_gpio(){
+	  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
+	  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_All ;
+	  GPIO_Init(GPIOC, &GPIO_InitStructure);
+}
 void RCC_Configuration(void)
 {
   /* PCLK2 = HCLK/2 */
@@ -138,25 +153,3 @@ void SPIx_Init()
       GPIO_Init(SPIz_GPIO, &GPIO_InitStructure);
 
 }
-
-
-#ifdef  USE_FULL_ASSERT
-
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t* file, uint32_t line)
-{
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-  /* Infinite loop */
-  while (1)
-  {}
-}
-
-#endif
