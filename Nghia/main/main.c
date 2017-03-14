@@ -16,7 +16,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-const uint64_t pipe = 0xE8E8F0F0E1LL; 
+//const uint64_t pipe = 0xE8E8F0F0E1LL; 
+pipes = [[0xE8, 0xE8, 0xF0, 0xF0, 0xE1], [0xF0, 0xF0, 0xF0, 0xF0, 0xE1]]   
 //busdn RF24(9,10); //thay 10 thành 53 với mega
  
 int val;
