@@ -16,8 +16,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-pipes = [[0xE8, 0xE8, 0xF0, 0xF0, 0xE1], [0xF0, 0xF0, 0xF0, 0xF0, 0xE1]]   
-
+const uint64_t pipe = 0xE8E8F0F0E1LL
 int val;
 const char mess[] = "Hello Raspberry Pi"
 SPI_InitTypeDef   SPI_InitStructure;
