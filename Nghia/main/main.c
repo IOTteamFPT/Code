@@ -33,7 +33,7 @@ __IO uint8_t TxIdx = 0, RxIdx = 0, k = 0;
 void RCC_Configuration(void);
 void SPIx_Init();
 void setup_gpio();
-
+RF24 radio(GPIO_Pin_33,GPIO_Pin_38);
 
 
 int main(void)
@@ -46,21 +46,21 @@ int main(void)
 
 	//===========================Module NRF24============================
     // setup
-	  RF24.begin();                                 
-	  RF24.setPALevel(busdn_PA_MAX);      // Dung lượng tối đa
-	  RF24.setChannel(0x76);    
-	  RF24.enableDynamicPayloads(); 
-	  RF24.powerUp(); 
-	  RF24.openWritingPipe(0xF0F0F0F0E1LL);      // Địa chỉ phát phải giống với địa chỉ thu của Raspberry
-	  RF24.openReadingPipe(1, pipe); 
-	  RF24.startListening();      // Bắt đầu thu
+	  radio.begin();                                 
+	  radio.setPALevel(busdn_PA_MAX);      // Dung lượng tối đa
+	  radio.setChannel(0x76);    
+	  radio.enableDynamicPayloads(); 
+	  radio.powerUp(); 
+	  radio.openWritingPipe(0xF0F0F0F0E1LL);      // Địa chỉ phát phải giống với địa chỉ thu của Raspberry
+	  radio.openReadingPipe(1, pipe); 
+	  radio.startListening();      // Bắt đầu thu
 
 		  while (1)
 		  {
 		  
 		 char receivedMessage[32] = {0};
-		if (RF24.available()){
-		RF24.read(receivedMessage, sizeof(receivedMessage));
+		if (radio.available()){
+		radio.read(receivedMessage, sizeof(receivedMessage));
 		if(receivedMessage==1)
 		{
 		GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET);
@@ -70,9 +70,9 @@ int main(void)
     		GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_RESET);
 		}
     		
-		RF24.stopListening();
-		RF24.write(mess, sizeof(mess));
-		RF24.startListening();
+		radio.stopListening();
+		radio.write(mess, sizeof(mess));
+		radio.startListening();
 		delay(1000);
 		  }
 
