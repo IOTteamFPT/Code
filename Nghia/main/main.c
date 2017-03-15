@@ -33,7 +33,7 @@ __IO uint8_t TxIdx = 0, RxIdx = 0, k = 0;
 void RCC_Configuration(void);
 void SPIx_Init();
 void setup_gpio();
-RF24 radio(GPIO_Pin_29,GPIO_Pin_25);
+RF24 radio(GPIO_Pin_13,GPIO_Pin_14);
 
 
 int main(void)
