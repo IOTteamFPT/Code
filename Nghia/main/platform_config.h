@@ -9,9 +9,9 @@
   #define SPIz_CLK               RCC_APB2Periph_SPI1
   #define SPIz_GPIO              GPIOA
   #define SPIz_GPIO_CLK          RCC_APB2Periph_GPIOA  
-  #define SPIz_PIN_SCK           GPIO_Pin_5
-  #define SPIz_PIN_MISO          GPIO_Pin_6
-  #define SPIz_PIN_MOSI          GPIO_Pin_7
+  #define SPIz_PIN_SCK           GPIO_Pin_13
+  #define SPIz_PIN_MISO          GPIO_Pin_14
+  #define SPIz_PIN_MOSI          GPIO_Pin_15
 /*
   #define SPI                    SPI2
   #define SPIz_CLK                RCC_APB1Periph_SPI2
