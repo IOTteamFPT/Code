@@ -1,5 +1,5 @@
 HOME MONITORING SYSTEM
-Thiết kế và thi công hệ thống giám sát và điều khiển thiết bị trong nhà thông qua mạng internet và sóng RF sử dụng bo mạch Raspberry Pi 3 kết hợp bo mạch STM32F103C8T6.
+Thiết kế và thi công hệ thống giám sát và điều khiển không dây các thiết bị trong nhà sử dụng Raspberry Pi 3
 
 Chương 1 GIỚI THIỆU
 1.1 Xu thế công nghệ và ý tưởng đề tài
