@@ -76,6 +76,7 @@ User Case Diagram
                                                           User
 
 3.2 Tìm hiểu về giản đồ Usecase Diagram
+
 -Vẻ và phân tích giản đồ trong việc thể hiện đầy đủ các chức năng của hệ thống
 
 Chương 4 HƯỚNG GIẢI QUYẾT ĐỀ TÀI
@@ -231,3 +232,30 @@ Jack Headphone Stereo 3.5mm cho đầu ra âm thanh Analog .
 -Chi phí vừa phải mà hiệu suất cao.→sp công nghiệp
 -Bộ nhớ flash có thể lên đến 128k.
 -Nó có thể xử lý nhiều task (pthread)
+
+
+nRF24L01​
+1.Thông số kỹ thuật:
+- Radio
+o Hoạt động ở giải tần 2.4G
+o Có 126 kênh
+o Truyền và nhận dữ liệu
+o Truyền tốc độ cao 1Mbps hoặc 2Mbps.
+- Công suất phát:
+o Có thể cài đặt được 4 công suất nguồn phát: 0,-6,-12,-18dBm.
+- Thu:
+o Có bộ lọc nhiễu tại đầu thu
+o Kếch đại bị ảnh hưởng bởi nhiễu thấp (LNA)
+- Nguồn cấp:
+o Hoạt động từ 1.9-3.6V.
+o Các chân IO chạy được cả 3.3 lẫn 5V.
+- Giao tiếp:
+o 4 pin SPI
+o Tốc độ tối đa 8Mbps
+o 3-32 bytes trên 1 khung truyền nhận
+ 
+-Phân tích:
+o Modul nRF24L01 hoạt động ở tần số sóng ngắn 2.4G nên Modul này khả năng truyền dữ liệu tốc độ cao và truyền nhận dữ liệu trong điều kiện môi trường có vật cản
+o Modul nRF24L01 có 126 kênh truyền. Điều này giúp ta có thể truyền nhận dữ liệu trên nhiều kênh khác nhau.
+o Modul khả năng thay đổi công suất phát bằng chương trình, điều này giúp nó có thể hoạt động trong chế độ tiết kiệm năng lượng.
+o Chú ý: Điện áp cung cấp cho là 1.9à3.6V. Điện áp thường cung cấp là 3.3V. Nhưng các chân IO tương thích với chuẩn 5V. Điều này giúp nó giao tiếp rộng dãi với các dòng vi điều khiển.
