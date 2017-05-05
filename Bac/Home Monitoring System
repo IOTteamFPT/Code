@@ -281,3 +281,8 @@ o Modul nRF24L01 hoạt động ở tần số sóng ngắn 2.4G nên Modul này
 o Modul nRF24L01 có 126 kênh truyền. Điều này giúp ta có thể truyền nhận dữ liệu trên nhiều kênh khác nhau.
 o Modul khả năng thay đổi công suất phát bằng chương trình, điều này giúp nó có thể hoạt động trong chế độ tiết kiệm năng lượng.
 o Chú ý: Điện áp cung cấp cho là 1.9à3.6V. Điện áp thường cung cấp là 3.3V. Nhưng các chân IO tương thích với chuẩn 5V. Điều này giúp nó giao tiếp rộng dãi với các dòng vi điều khiển.
+
+
+Qt là gì?
+Qt là 1 thư viện đa nền tảng để tạo nên các giao diện đồ họa người dùng, chủ yếu với các cửa sổ.
+Tài liệu tham khảo:
