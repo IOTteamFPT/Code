@@ -218,24 +218,37 @@ Chương 8 HƯỚNG PHÁT TRIỂN ĐỀ TÀI
 Những vấn đề chưa thực hiện, chưa tối ưu và đưa ra giải pháp
 
 
-1.Tìm hiểu board Raspberry pi 3
+1.Tại sao lại chọn Raspberry Pi?
 Đặc tính của Raspberry Pi xây dựng xoay quanh bộ xử lí SoC Broadcom BCM2835 ( là chip xử lí mobile mạnh mẽ có kích thước nhỏ hay được dùng trong điện thoại di động ) 
 bao gồm CPU , GPU , bộ xử lí âm thanh /video , và các tính năng khác … tất cả được tích hợp bên trong chip có điện năng thấp này .
-SoC 700MHz với 512MB RAM .
-1 cổng HDMI cho đầu ra âm thanh / video số .
-1 cổng video RCA cho đầu ra video Analog .
-Jack Headphone Stereo 3.5mm cho đầu ra âm thanh Analog .
-02 cổng USB .
-01 đầu đọc thẻ nhớ SD để tải hệ điều hành .
-01 cổng Ethernet LAN.
-01 giao diện GPIO (General Purpose Input/Output) .
-Chức năng như một máy tính có các kết nối HDMI, Video.
-Có thêm các GPIO đầy đủ như một vi điều khiển thông thường để người phát triển có thể sử dụng như:
+-Chức năng như một máy tính có các kết nối HDMI, Video.
+-Có thêm các GPIO đầy đủ như một vi điều khiển thông thường để người phát triển có thể sử dụng như:
 Module I2C, SPI, UART, PWM.
 Nguồn đầu ra với hiệu điện thế thông dụng: 5V và 3.3V
 Cộng đồng người sử dụng trên toàn thế giới.
 Chạy hệ điều hành dựa trên nhân linux.
 Hệ điều hành được phân phối miễn phí.
+
+SoC 700MHz với 512MB RAM .
+1 cổng HDMI cho đầu ra âm thanh / video số .
+Ethernet: Cổng mạng Ethernet 10/100M
+Video: HDMI hỗ trợ phiên bản 1.3/1.4 và Composite RCA (PAL and NTSC)
+Jack Headphone Stereo 3.5mm cho đầu ra âm thanh Analog .
+Audio: Cổng ra 3.5 và HDMI
+GPIO: 40 chân
+01 đầu đọc thẻ nhớ SD để tải hệ điều hành .
+01 cổng Ethernet LAN.
+01 giao diện GPIO (General Purpose Input/Output) .
+CPU: Lõi tứ ARM Cortex A7, tốc độ 900MHz
+GPU: Broadcom VideoCore IV – 250MHz
+Bộ nhớ RAM: 1GB, tuy nhiên bị chia sẻ 250MHz cho GPU
+Cổng USB: 4
+Video output: HDMI, composite video thông qua jack 3,5 mm
+Audio outputs: Analog qua jack 3,5 mm; kỹ thuật số thông qua cổng HDM
+Bộ nhớ trong: thẻ nhớ microSD
+Kết nối mạng: Ethernet 10/100Mbps
+Nguồn điện: 5 V qua MicroUSB hoặc GPIO
+Kích thước: 85.60mm × 56.5mm
 
 2.Tai sao su dung stm32 mà k phải stm8:
 -Chi phí vừa phải mà hiệu suất cao.→sp công nghiệp
