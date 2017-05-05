@@ -1,0 +1,233 @@
+HOME MONITORING SYSTEM
+Thiết kế và thi công hệ thống giám sát và điều khiển thiết bị trong nhà thông qua mạng internet và sóng RF sử dụng bo mạch Raspberry Pi 3 kết hợp bo mạch STM32F103C8T6.
+
+Chương 1 GIỚI THIỆU
+1.1 Xu thế công nghệ và ý tưởng đề tài
+ - Trình bày xu thế công nghệ mới trong tương lai gần, vấn đề tất yếu
+ - Tương quan giữa công nghệ và ý tưởng đề tài đặt ra
+1.2 Sơ lược về đề tài
+ - Giới thiệu sơ bộ về đề tài
+ - Các chức năng khác biệt với các hệ thống đã có trên thị trường
+
+Chương 2 TỔNG QUAN VỀ CÔNG NGHỆ INTERNET OF THING
+2.1 Giới thiệu
+ - Định nghĩa IoT
+Internet of Things là khi tất cả mọi thứ đều được kết nối với nhau qua mạng Internet, người dùng (chủ) có thể kiểm soát mọi đồ vật của mình qua mạng mà chỉ bằng một thiết bị thông minh, chẳng hạn như smartphone, tablet, PC
+ -Ưu, nhược điểm khi công nghệ này ra đời
+2.1 Mô hình hệ thống IoT
+ - Phân tích các lớp của một hệ thống IoT hoàn chỉnh
+ - Mối tương quan giữa các lớp
+2.2  Các giao thức và kiểu mạng sử dụng trong IoT
+Sơ lược các giao thức: CoAp, MQTT, http..
+-MQTT (Message Queuing Telemetry Transport) là một giao thức gởi dạng publish/subscribe sử dụng cho các thiết bị Internet of Things với băng thông thấp, độ tin cậy cao và khả năng được sử dụng trong mạng lưới không ổn định.
+Publish, subscribe
+Trong một hệ thống sử dụng giao thức MQTT, nhiều node trạm (gọi là mqtt client - gọi tắt là client) kết nối tới một MQTT server (gọi là broker). Mỗi client sẽ đăng ký một vài kênh (topic), ví dụ như "/client1/channel1", "/client1/channel2". Quá trình đăng ký này gọi là "subscribe", giống như chúng ta đăng ký nhận tin trên một kênh Youtube vậy. Mỗi client sẽ nhận được dữ liệu khi bất kỳ trạm nào khác gởi dữ liệu và kênh đã đăng ký. Khi một client gởi dữ liệu tới kênh đó, gọi là "publish".
+QoS
+Ở đây có 3 tuỳ chọn *QoS (Qualities of service) * khi "publish" và "subscribe":
+QoS0 Broker/client sẽ gởi dữ liệu đúng 1 lần, quá trình gởi được xác nhận bởi chỉ giao thức TCP/IP, giống kiểu đem con bỏ chợ.
+QoS1 Broker/client sẽ gởi dữ liệu với ít nhất 1 lần xác nhận từ đầu kia, nghĩa là có thể có nhiều hơn 1 lần xác nhận đã nhận được dữ liệu.
+QoS2 Broker/client đảm bảm khi gởi dữ liệu thì phía nhận chỉ nhận được đúng 1 lần, quá trình này phải trải qua 4 bước bắt tay.
+Một gói tin có thể được gởi ở bất kỳ QoS nào, và các client cũng có thể subscribe với bất kỳ yêu cầu QoS nào. Có nghĩa là client sẽ lựa chọn QoS tối đa mà nó có để nhận tin. Ví dụ, nếu 1 gói dữ liệu được publish với QoS2, và client subscribe với QoS0, thì gói dữ liệu được nhận về client này sẽ được broker gởi với QoS0, và 1 client khác đăng ký cùng kênh này với QoS 2, thì nó sẽ được Broker gởi dữ liệu với QoS2.
+Sơ lược các kiểu mạng: Mesh, Star..
+
+Chương 3 TỔNG QUAN HỆ THỐNG GIÁM SÁT NGÔI NHÀ
+3.1 Tìm hiểu về sơ đồ khối
+-Vẻ và phân tích sơ đồ các khối của hệ thống, chức năng của từng khối, mối liên hệ giữa các khối
+1. Chức năng hệ thống
+Điều khiển ,quản lý thiết bị từ xa.
+Thêm một hay nhiều thiết bị vào hệ thống
+Hiển thị một số thông tin cần thiết: nhiệt độ, độ ẩm, trạng thái thiết bị lên màn hình trên Gateway, Smartphone
+Cảnh báo an ninh 
+Bảo mật hệ thống
+
+ Gateway                                                            Cloud Server
+          Publish dữ liệu lên server
+                                        
+                 Subscrible từ Server                                              
+                                         
+                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                     
+                                                                                                                      
+                                                                                                                                    Subscrible                 Publish
+Gửi dữ liệu từ                 Điều khiển
+  Cảm biến                       thiết bị
+
+ 
+
+
+
+        
+        Device    								Application 
+
+User Case Diagram
+                                                 <<include>>
+                                                 
+                                                                 <<extend>>
+  
+
+                                                     <<include>>
+
+
+                                                    <<extend>>
+
+
+
+                                                                                  
+                                                          User
+
+3.2 Tìm hiểu về giản đồ Usecase Diagram
+-Vẻ và phân tích giản đồ trong việc thể hiện đầy đủ các chức năng của hệ thống
+
+Chương 4 HƯỚNG GIẢI QUYẾT ĐỀ TÀI
+Với những vấn đề đặt ra như trên chúng ta cần có giải pháp để thực hiện cho hợp lý nhất:
+4.1 Tìm hiểu và lựa chọn phần cứng
+  -Tìm hiểu phần cứng, lý do chọn phần cứng
+4.2 Tìm hiểu và lựa chọn giao thức và kiểu mạng
+ - Tập trung phân tích giao thức MQTT
+ - Tập trung phân tích kiểu mạng Mesh
+4.3 Tìm hiểu và lựa chọn Server
+4.4 Tìm hiểu và lựa chọn Tools
+Chương 5 THIẾT KẾ VÀ THI CÔNG
+5.1 Gateway
+5.1.1 Thiết kế Sequence xử lý dữ liệu trên Gateway
+ - Vẻ và phân tích giản đồ trong việc thể hiện trình tự thực hiện trong từng chức năng trong hệ thống
+
+
+5.1.1.1 Đăng kí thiết bị mới
+5.1.1.2 Xóa thiết bị đã đăng kí
+5.1.1.3 Truyền nhận dữ liệu giữa hai thiết bị
+5.1.1.4 Thiết lập Gateway
+5.1.1.5 Điều khiển thiết bị
+5.1.1.5.1 Điều khiển tương tự
+5.1.1.5.2 Điều khiển số
+5.1.1.5.3 Điều khiển từ công tắc
+5.1.1.5.4 Điều khiển từ Gateway
+5.1.1.5.5 Điều khiển từ Smart phone
+5.1.1.5.6 Update firmware
+5.1.1.6 Thay đổi kênh hoạt động khi bị nhiễu
+5.1.1.7 Khôi phục trạng thái khi mất điện
+5.1.1.8 Trao đổi Key
+5.1.1.9 Checksum
+5.1.2 Thiết kế giao diện điều khiển trong nhà trên Gateway
+5.2 Device
+5.2.1 Module RF
+5.2.2 Module cảm biến chuyển động
+5.2.3 Module cảm biến rung
+5.2.4 Module cảm biến nhiệt độ, độ ẩm
+5.2.5 Module cảm biến cửa từ
+5.3 Server
+5.3.1 Thiết kế Sequence xử lý dữ liệu trên server
+5.3.1.1 Đăng kí thêm nhà từ Gateway
+5.3.1.2 Đăng kí thêm nhà từ App
+5.3.1.3 Xóa một nhà từ Gateway
+5.3.1.4 Xóa một nhà từ App
+5.3.1.5 Đăng nhập từ server
+5.3.1.6 Đăng nhập từ App
+5.3.2 Thiết kế server
+
+Chương 6 KẾT QUẢ ĐẠT ĐƯỢC
+Trình bày kết quả đạt được ban đầu, demo hoạt động
+Chương 7 ĐÁNH GIÁ VÀ KẾT LUẬN
+Ưu nhược điểm, tính ổn định, tính bảo mật...
+Chương 8 HƯỚNG PHÁT TRIỂN ĐỀ TÀI
+Những vấn đề chưa thực hiện, chưa tối ưu và đưa ra giải pháp
+
+
+
+
+HOME MONITORING SYSTEM
+
+Chương 1 GIỚI THIỆU
+1.1 Xu thế công nghệ và ý tưởng đề tài
+ - Trình bày xu thế công nghệ mới trong tương lai gần, vấn đề tất yếu
+ - Tương quan giữa công nghệ và ý tưởng đề tài đặt ra
+1.2 Sơ lược về đề tài
+ - Giới thiệu sơ bộ về đề tài
+ - Các chức năng khác biệt với các hệ thống đã có trên thị trường
+
+Chương 2 TỔNG QUAN VỀ CÔNG NGHỆ INTERNET OF THING
+2.1 Giới thiệu
+ - Định nghĩa IoT
+Internet of Things là khi tất cả mọi thứ đều được kết nối với nhau qua mạng Internet, người dùng (chủ) có thể kiểm soát mọi đồ vật của mình qua mạng mà chỉ bằng một thiết bị thông minh, chẳng hạn như smartphone, tablet, PC hay thậm chí chỉ bằng một chiếc smartwatch nhỏ bé trên tay. -Ưu, nhược điểm khi công nghệ này ra đời
+2.1 Mô hình hệ thống IoT
+ - Phân tích các lớp của một hệ thống IoT hoàn chỉnh
+ - Mối tương quan giữa các lớp
+2.2  Các giao thức và kiểu mạng sử dụng trong IoT
+Sơ lược các giao thức: CoAp, MQTT, http..
+Sơ lược các kiểu mạng: Mesh, Star..
+
+Chương 3 TỔNG QUAN HỆ THỐNG GIÁM SÁT NGÔI NHÀ
+3.1 Tìm hiểu về sơ đồ khối
+-Vẻ và phân tích sơ đồ các khối của hệ thống, chức năng của từng khối, mối liên hệ giữa các khối
+3.2 Tìm hiểu về giản đồ Usecase Diagram
+-Vẻ và phân tích giản đồ trong việc thể hiện đầy đủ các chức năng của hệ thống
+
+Chương 4 HƯỚNG GIẢI QUYẾT ĐỀ TÀI
+Với những vấn đề đặt ra như trên chúng ta cần có giải pháp để thực hiện cho hợp lý nhất:
+4.1 Tìm hiểu và lựa chọn phần cứng
+  -Tìm hiểu phần cứng, lý do chọn phần cứng
+4.2 Tìm hiểu và lựa chọn giao thức và kiểu mạng
+ - Tập trung phân tích giao thức MQTT
+ - Tập trung phân tích kiểu mạng Mesh
+4.3 Tìm hiểu và lựa chọn Server
+4.4 Tìm hiểu và lựa chọn Tools
+Chương 5 THIẾT KẾ VÀ THI CÔNG
+5.1 Gateway
+5.1.1 Thiết kế Sequence xử lý dữ liệu trên Gateway
+ - Vẻ và phân tích giản đồ trong việc thể hiện trình tự thực hiện trong từng chức năng trong hệ thống
+
+
+5.1.1.1 Đăng kí thiết bị mới
+5.1.1.2 Xóa thiết bị đã đăng kí
+5.1.1.3 Truyền nhận dữ liệu giữa hai thiết bị
+5.1.1.4 Thiết lập Gateway
+5.1.1.5 Điều khiển thiết bị
+5.1.1.5.1 Điều khiển tương tự
+5.1.1.5.2 Điều khiển số
+5.1.1.5.3 Điều khiển từ công tắc
+5.1.1.5.4 Điều khiển từ Gateway
+5.1.1.5.5 Điều khiển từ Smart phone
+5.1.1.5.6 Update firmware
+5.1.1.6 Thay đổi kênh hoạt động khi bị nhiễu
+5.1.1.7 Khôi phục trạng thái khi mất điện
+5.1.1.8 Trao đổi Key
+5.1.1.9 Checksum
+5.1.2 Thiết kế giao diện điều khiển trong nhà trên Gateway
+5.2 Device
+5.2.1 Module RF
+5.2.2 Module cảm biến chuyển động
+5.2.3 Module cảm biến rung
+5.2.4 Module cảm biến nhiệt độ, độ ẩm
+5.2.5 Module cảm biến cửa từ
+5.3 Server
+5.3.1 Thiết kế Sequence xử lý dữ liệu trên server
+5.3.1.1 Đăng kí thêm nhà từ Gateway
+5.3.1.2 Đăng kí thêm nhà từ App
+5.3.1.3 Xóa một nhà từ Gateway
+5.3.1.4 Xóa một nhà từ App
+5.3.1.5 Đăng nhập từ server
+5.3.1.6 Đăng nhập từ App
+5.3.2 Thiết kế server
+
+Chương 6 KẾT QUẢ ĐẠT ĐƯỢC
+Trình bày kết quả đạt được ban đầu, demo hoạt động
+Chương 7 ĐÁNH GIÁ VÀ KẾT LUẬN
+Ưu nhược điểm, tính ổn định, tính bảo mật...
+Chương 8 HƯỚNG PHÁT TRIỂN ĐỀ TÀI
+Những vấn đề chưa thực hiện, chưa tối ưu và đưa ra giải pháp
+
+
+1.Tìm hiểu board Raspberry pi 3
+Đặc tính của Raspberry Pi xây dựng xoay quanh bộ xử lí SoC Broadcom BCM2835 ( là chip xử lí mobile mạnh mẽ có kích thước nhỏ hay được dùng trong điện thoại di động ) bao gồm CPU , GPU , bộ xử lí âm thanh /video , và các tính năng khác … tất cả được tích hợp bên trong chip có điện năng thấp này .
+SoC 700MHz với 512MB RAM .
+1 cổng HDMI cho đầu ra âm thanh / video số .
+1 cổng video RCA cho đầu ra video Analog .
+Jack Headphone Stereo 3.5mm cho đầu ra âm thanh Analog .
+02 cổng USB .
+01 đầu đọc thẻ nhớ SD để tải hệ điều hành .
+01 cổng Ethernet LAN.
+01 giao diện GPIO (General Purpose Input/Output) .
+2.Tai sao su dung stm32 mà k phải stm8:
+-Chi phí vừa phải mà hiệu suất cao.→sp công nghiệp
+-Bộ nhớ flash có thể lên đến 128k.
+-Nó có thể xử lý nhiều task (pthread)
